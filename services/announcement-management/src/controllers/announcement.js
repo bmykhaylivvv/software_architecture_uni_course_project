@@ -95,7 +95,84 @@ export default class AnnouncementController {
 
     if (!userId) return res.status(400).send('No userId provided');
 
-    const { result, error } = await announcementService.getAnnouncementsByUserId(userId);
+    const { result, error } =
+      await announcementService.getAnnouncementsByUserId(userId);
+
+    if (error) return res.status(error.code).send(error.message);
+
+    return res.status(200).send(result);
+  }
+
+  /**
+   * GET /announcement?userId=1 controller
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
+  async getAnnouncementsByUserId(req, res) {
+    const { userId } = req.query;
+
+    if (!userId) return res.status(400).send('No userId provided');
+
+    const { result, error } =
+      await announcementService.getAnnouncementsByUserId(userId);
+
+    if (error) return res.status(error.code).send(error.message);
+
+    return res.status(200).send(result);
+  }
+
+  /**
+   * GET /announcement?userId=1 controller
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
+  async getAnnouncementsByUserId(req, res) {
+    const { userId } = req.query;
+
+    if (!userId) return res.status(400).send('No userId provided');
+
+    const { result, error } =
+      await announcementService.getAnnouncementsByUserId(userId);
+
+    if (error) return res.status(error.code).send(error.message);
+
+    return res.status(200).send(result);
+  }
+
+  /**
+   * GET /announcement?userId=1 controller
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
+  async getAnnouncementsByUserId(req, res) {
+    const { userId } = req.query;
+
+    if (!userId) return res.status(400).send('No userId provided');
+
+    const { result, error } =
+      await announcementService.getAnnouncementsByUserId(userId);
+
+    if (error) return res.status(error.code).send(error.message);
+
+    return res.status(200).send(result);
+  }
+
+  /**
+   * GET /announcement/search?query=abc controller
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
+  async getAnnouncementsByFullTextSearch(req, res) {
+    const { query } = req.query;
+
+    if (!query) return res.status(400).send('No search query provided');
+
+    const { result, error } =
+      await announcementService.getAnnouncementsByFullTextSearch(query);
 
     if (error) return res.status(error.code).send(error.message);
 

@@ -155,4 +155,23 @@ export default class AnnouncementService {
 
     return { result: resultRows };
   }
+
+  /**
+   * Get announcements by title and description full text search
+   * @param {*} announcementId
+   * @param {*} announcement
+   * @returns
+   */
+  async getAnnouncementsByFullTextSearch(searchQuery) {
+    const connection = getMysqlConnection();
+    const query = `SELECT * FROM announcement WHERE MATCH (title, description) AGAINST (? IN NATURAL LANGUAGE MODE)`;
+
+    const [error, [resultRows, _]] = await to(
+      connection.promise().query(query, [searchQuery])
+    );
+
+    if (error) return { error: { code: 500, message: error } };
+
+    return { result: resultRows };
+  }
 }
