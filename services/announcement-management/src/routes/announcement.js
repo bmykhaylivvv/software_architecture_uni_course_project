@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import AnnouncementController from '../conrollers/announcement.js';
+import AnnouncementController from '../controllers/announcement.js';
 
 const announcementController = new AnnouncementController();
 const announcementRouter = Router();
