@@ -1,22 +1,24 @@
-import AnnouncementService from '../services/announcement/announcement.js'
-import Announcement from '../domain/announcement.js'
+import AnnouncementService from '../services/announcement/announcement.js';
+import Announcement from '../domain/announcement.js';
 
 const announcementService = new AnnouncementService();
- 
+
 /**
  * Class representing announcement-management service controller
  */
 export default class AnnouncementController {
   /**
    * POST /announcement controller
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   async createAnnouncement(req, res) {
     const { userId, title, description } = req.body;
     const announcement = new Announcement(userId, title, description);
-    const { result, error } = await announcementService.createAnnouncement(announcement);
+    const { result, error } = await announcementService.createAnnouncement(
+      announcement
+    );
 
     if (error) return res.status(error.code).send(error.message);
 
@@ -25,9 +27,9 @@ export default class AnnouncementController {
 
   /**
    * PUT /announcement/:id controller
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
   async updateAnnouncement(req, res) {
     const { id } = req.params;
@@ -36,28 +38,67 @@ export default class AnnouncementController {
     if (!id) return res.status(400).send('No announcement id provided');
 
     const announcement = new Announcement(userId, title, description);
-    const { result, error } = await announcementService.updateAnnouncement(id, announcement);
+    const { result, error } = await announcementService.updateAnnouncement(
+      id,
+      announcement
+    );
 
     if (error) return res.status(error.code).send(error.message);
 
     return res.status(200).send(result);
   }
 
-    /**
-   * DELETE /announcement/:id controller
-   * @param {*} req 
-   * @param {*} res 
-   * @returns 
+  /**
+   * GET /announcement/:id controller
+   * @param {*} req
+   * @param {*} res
+   * @returns
    */
-    async deleteAnnouncement(req, res) {
-      const { id } = req.params;
-  
-      if (!id) return res.status(400).send('No announcement id provided');
-  
-      const { result, error } = await announcementService.deleteAnnouncement(id);
-  
-      if (error) return res.status(error.code).send(error.message);
-  
-      return res.status(200).send(result);
-    }
+  async getAnnouncement(req, res) {
+    const { id } = req.params;
+
+    if (!id) return res.status(400).send('No announcement id provided');
+
+    const { result, error } = await announcementService.getAnnouncement(id);
+
+    if (error) return res.status(error.code).send(error.message);
+
+    return res.status(200).send(result);
+  }
+
+  /**
+   * DELETE /announcement/:id controller
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
+  async deleteAnnouncement(req, res) {
+    const { id } = req.params;
+
+    if (!id) return res.status(400).send('No announcement id provided');
+
+    const { result, error } = await announcementService.deleteAnnouncement(id);
+
+    if (error) return res.status(error.code).send(error.message);
+
+    return res.status(200).send(result);
+  }
+
+  /**
+   * GET /announcement?userId=1 controller
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   */
+  async getAnnouncementsByUserId(req, res) {
+    const { userId } = req.query;
+
+    if (!userId) return res.status(400).send('No userId provided');
+
+    const { result, error } = await announcementService.getAnnouncementsByUserId(userId);
+
+    if (error) return res.status(error.code).send(error.message);
+
+    return res.status(200).send(result);
+  }
 }

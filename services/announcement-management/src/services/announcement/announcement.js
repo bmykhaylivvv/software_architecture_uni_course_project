@@ -22,9 +22,6 @@ export default class AnnouncementService {
     const [error] = await to(
       connection.promise().query(query, newAnnouncement)
     );
-    // const [error, [resultRows, _]] = await to(
-    //   connection.promise().query(query, newAnnouncement)
-    // );
 
     if (error) return { error: { code: 500, message: error } };
 
@@ -52,9 +49,6 @@ export default class AnnouncementService {
     const [error] = await to(
       connection.promise().query(query, [updatedAnnouncement, announcementId])
     );
-    // const [error, [resultRows, _]] = await to(
-    //   connection.promise().query(query, newAnnouncement)
-    // );
 
     if (error) return { error: { code: 500, message: error } };
 
@@ -80,8 +74,85 @@ export default class AnnouncementService {
 
     if (error) return { error: { code: 500, message: error } };
 
-    const result = { id: announcementId }
+    const result = { id: announcementId };
 
     return { result };
+  }
+
+  /**
+   * Get announcement by id
+   * @param {*} announcementId
+   * @param {*} announcement
+   * @returns
+   */
+  async getAnnouncement(announcementId) {
+    const connection = getMysqlConnection();
+    const query = 'SELECT * FROM announcement WHERE id = ?';
+
+    const [error, [resultRows, _]] = await to(
+      connection.promise().query(query, [announcementId])
+    );
+
+    if (!resultRows.length)
+      return {
+        error: {
+          code: 404,
+          message: `Announcement with id ${announcementId} was not found`,
+        },
+      };
+
+    if (error) return { error: { code: 500, message: error } };
+
+    // We can take the first element of the  resultRows because there always be only one record as we are specifying in
+    // our query id which is unique primary key
+    return { result: resultRows[0] };
+  }
+
+  /**
+   * Get announcement by id
+   * @param {*} announcementId
+   * @param {*} announcement
+   * @returns
+   */
+  async getAnnouncement(announcementId) {
+    const connection = getMysqlConnection();
+    const query = 'SELECT * FROM announcement WHERE id = ?';
+
+    const [error, [resultRows, _]] = await to(
+      connection.promise().query(query, [announcementId])
+    );
+
+    if (!resultRows.length)
+      return {
+        error: {
+          code: 404,
+          message: `Announcement with id ${announcementId} was not found`,
+        },
+      };
+
+    if (error) return { error: { code: 500, message: error } };
+
+    // We can take the first element of the  resultRows because there always be only one record as we are specifying in
+    // our query id which is unique primary key
+    return { result: resultRows[0] };
+  }
+
+  /**
+   * Get announcements by userId
+   * @param {*} announcementId
+   * @param {*} announcement
+   * @returns
+   */
+  async getAnnouncementsByUserId(userId) {
+    const connection = getMysqlConnection();
+    const query = 'SELECT * FROM announcement WHERE user_id = ?';
+
+    const [error, [resultRows, _]] = await to(
+      connection.promise().query(query, [userId])
+    );
+
+    if (error) return { error: { code: 500, message: error } };
+
+    return { result: resultRows };
   }
 }
