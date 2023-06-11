@@ -6,6 +6,9 @@ import { verifyUser } from '../middlewares/authentication.js';
 const reviewController = new ReviewController();
 const reviewRouter = Router();
 
-reviewRouter.get('/', verifyUser, reviewController.test);
+reviewRouter.post('/', verifyUser, reviewController.createReview);
+reviewRouter.delete('/review/:id', verifyUser, reviewController.deleteReview);
+reviewRouter.get('/', verifyUser, reviewController.getReviewsByAnnouncementId);
+
 
 export { reviewRouter };

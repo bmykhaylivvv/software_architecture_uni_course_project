@@ -1,3 +1,21 @@
-# Test GET
-GET http://localhost:3002
+# Create review
+POST http://localhost:3002
+Content-Type: application/json
+
+{
+  "announcementId": 10,
+  "userId": 3,
+  "text": "Not bad"
+}
+
+###
+
+# Delete review
+DELETE  http://localhost:3002/review/6485874919e2009ee4cd2e60
+Content-Type: application/json
+
+###
+
+# Get reviews by announcementId
+GET http://localhost:3002/?announcementId=10
 Content-Type: application/json

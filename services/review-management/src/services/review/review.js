@@ -1,3 +1,4 @@
+import { to } from 'await-to-js';
 import { ObjectId } from 'mongodb';
 
 import { getMongoDbConnection } from '../../persistence/mongodb/mongodb.js';
@@ -6,27 +7,78 @@ import { getMongoDbConnection } from '../../persistence/mongodb/mongodb.js';
  * Class with service methods for review-management service
  */
 export default class ReviewService {
-  async test() {
+  /**
+   * Create new review
+   * @param {*} review
+   * @returns
+   */
+  async createReview(review) {
     const mongoDbClient = getMongoDbConnection();
-    const newListing = {
-      name: 'Lovely Loft',
-      summary: 'A charming loft in Paris',
-      bedrooms: 1,
-      bathrooms: 1,
+    const newReview = {
+      announcement_id: review.announcementId,
+      user_id: review.userId,
+      text: review.text,
+      date: review.date,
     };
+    const [error] = await to(
+      mongoDbClient.db('project').collection('review').insertOne(newReview)
+    );
 
-    // const result = await mongoDbClient
-    //   .db('project')
-    //   .collection('review')
-    //   .insertOne(newListing);
-    // console.log(
-    //   `New listing created with the following id: ${result.insertedId}`
-    // );
+    if (error) return { error: { code: 500, message: error } };
 
-    const result = await mongoDbClient.db("project").collection("review").find({ _id: new ObjectId('6485702f411eea36c3ae27e0') });
+    return { result: newReview };
+  }
 
-    console.log(await result.toArray());
+  /**
+   * Delete review
+   * @param {*} review
+   * @returns
+   */
+  async deleteReview(reviewId) {
+    const mongoDbClient = getMongoDbConnection();
+    let reviewObjectId;
 
-    return { result: 'OK' };
+    try {
+      reviewObjectId = new ObjectId(reviewId);
+    } catch {
+      return { error: { code: 500, message: 'Invalid review id' } };
+    }
+
+    const [error] = await to(
+      mongoDbClient
+        .db('project')
+        .collection('review')
+        .deleteOne({ _id: reviewObjectId })
+    );
+
+    if (error) return { error: { code: 500, message: error } };
+
+    const result = { id: reviewId };
+
+    return { result };
+  }
+
+  /**
+   * Get reviews by announcementId
+   * @param {*} review
+   * @returns
+   */
+  async getReviewsByAnnouncementId(announcementId) {
+    const mongoDbClient = getMongoDbConnection();
+    let reviews;
+
+    try {
+      console.log(typeof announcementId)
+      const rawReviewsResponse = await mongoDbClient
+        .db('project')
+        .collection('review')
+        .find({ announcement_id: announcementId });
+
+      reviews = await rawReviewsResponse.toArray();
+    } catch (error) {
+      if (error) return { error: { code: 500, message: error } };
+    }
+
+    return { result: reviews };
   }
 }
