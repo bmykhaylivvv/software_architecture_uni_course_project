@@ -2,7 +2,7 @@
 
 # MongoDB
 mongosh <<EOF
-use sa_project
+use project
 db.createCollection("logged_out")
 EOF
 
