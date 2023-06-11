@@ -31,7 +31,7 @@ export async function getServiceInstanceByName(serviceName) {
 export async function registerSelf(serviceName, serviceHost, servicePort) {
   const consul = getConsulInstance();
   const service = {
-    id: serviceHost,
+    id: serviceHost + servicePort,
     name: serviceName,
     address: serviceHost,
     port: parseInt(servicePort, 10),

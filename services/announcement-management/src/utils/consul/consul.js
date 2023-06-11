@@ -8,7 +8,7 @@ import { Consul } from 'consul/lib/consul.js';
 export async function getServiceInstanceByName(serviceName) {
   const consul = getConsulInstance();
   const [err, res] = await to(consul.catalog.service.nodes(serviceName));
-
+  
   if (err)
     return console.log(`Error getting services with name: ${serviceName}`);
 
@@ -31,7 +31,7 @@ export async function getServiceInstanceByName(serviceName) {
 export async function registerSelf(serviceName, serviceHost, servicePort) {
   const consul = getConsulInstance();
   const service = {
-    id: serviceHost,
+    id: serviceHost + servicePort,
     name: serviceName,
     address: serviceHost,
     port: parseInt(servicePort, 10),

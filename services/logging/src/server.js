@@ -12,7 +12,7 @@ import {
 import { registerSelf } from './utils/consul/consul.js';
 
 const app = express();
-const port = 3003;
+const port = process.env.PORT || 3003;
 
 // Register service in Consul
 await registerSelf('logging', 'localhost', port);
