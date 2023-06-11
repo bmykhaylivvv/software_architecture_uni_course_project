@@ -31,7 +31,7 @@ export default class AnnouncementService {
     if (error) {
       addNewLog(
         this.serviceName,
-        `Error while creating Announcement ${announcement.userId} was created`
+        `Error while creating Announcement for user ${announcement.userId} was created`
       );
 
       return { error: { code: 500, message: error } };

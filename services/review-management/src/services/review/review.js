@@ -1,11 +1,17 @@
 import { ObjectId } from 'mongodb';
 
 import { getMongoDbConnection } from '../../persistence/mongodb/mongodb.js';
+import { addNewLog } from '../../utils/logging/logging.js';
 
 /**
  * Class with service methods for review-management service
  */
 export default class ReviewService {
+  /**
+   * Name of the service
+   */
+  serviceName = 'review-management';
+
   /**
    * Create new review
    * @param {*} review
@@ -21,11 +27,18 @@ export default class ReviewService {
     };
 
     try {
-      await mongoDbClient
+      const createdReview = await mongoDbClient
         .db('project')
         .collection('review')
         .insertOne(newReview);
+
+      addNewLog(
+        this.serviceName,
+        `Review ${createdReview.insertedId} was created`
+      );
     } catch (error) {
+      addNewLog(this.serviceName, `Error while creating review`);
+
       return { error: { code: 500, message: error } };
     }
 
@@ -52,7 +65,14 @@ export default class ReviewService {
         .db('project')
         .collection('review')
         .deleteOne({ _id: reviewObjectId });
+
+      addNewLog(
+        this.serviceName,
+        `Review ${reviewId} was deleted`
+      );
     } catch (error) {
+      addNewLog(this.serviceName, `Error while deleting review`);
+
       return { error: { code: 500, message: error } };
     }
 
@@ -69,6 +89,11 @@ export default class ReviewService {
   async getReviewsByAnnouncementId(announcementId) {
     const mongoDbClient = getMongoDbConnection();
     let reviews;
+
+    addNewLog(
+      this.serviceName,
+      `Retrieving reviews for announcementId ${announcementId}`
+    );
 
     try {
       const rawReviewsResponse = await mongoDbClient
