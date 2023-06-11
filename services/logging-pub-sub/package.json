@@ -1,0 +1,21 @@
+{
+  "name": "logging-pub-sub",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "dependencies": {
+    "hazelcast-client": "^5.2.0",
+    "mongodb": "^5.6.0"
+  }
+}

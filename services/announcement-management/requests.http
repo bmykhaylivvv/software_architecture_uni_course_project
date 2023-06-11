@@ -1,0 +1,45 @@
+# Create announcement
+POST http://localhost:3001
+Content-Type: application/json
+
+{
+  "userId": 1321,
+  "title": "Title22",
+  "description": "Description2323123"
+}
+
+###
+
+# Update announcement
+PUT http://localhost:3001/announcement/8
+Content-Type: application/json
+
+{
+  "userId": 1321,
+  "title": "Title12",
+  "description": "Description2323123"
+}
+
+###
+
+# Delete announcement
+DELETE http://localhost:3001/announcement/6
+Content-Type: application/json
+
+###
+
+# Get announcement
+GET http://localhost:3001/announcement/10
+Content-Type: application/json
+
+###
+
+# Get announcements by user_id
+GET http://localhost:3001?userId=1321
+Content-Type: application/json
+
+###
+
+# Get announcements by full text search
+GET http://localhost:3001/search?query=description
+Content-Type: application/json
