@@ -1,11 +1,16 @@
 import { to } from 'await-to-js';
 
 import { getMysqlConnection } from '../../persistence/mysql/mysql.js';
-
+import { addNewLog } from '../../utils/logging/logging.js';
 /**
  * Class with service methods for announcement-management service
  */
 export default class AnnouncementService {
+  /**
+   * Name of the service
+   */
+  serviceName = 'announcement-management';
+
   /**
    * Create new announcement
    * @param {} announcement
@@ -23,7 +28,19 @@ export default class AnnouncementService {
       connection.promise().query(query, newAnnouncement)
     );
 
-    if (error) return { error: { code: 500, message: error } };
+    if (error) {
+      addNewLog(
+        this.serviceName,
+        `Error while creating Announcement ${announcement.userId} was created`
+      );
+
+      return { error: { code: 500, message: error } };
+    }
+
+    addNewLog(
+      this.serviceName,
+      `Announcement ${announcement.userId} was created`
+    );
 
     return { result: newAnnouncement };
   }
@@ -50,7 +67,16 @@ export default class AnnouncementService {
       connection.promise().query(query, [updatedAnnouncement, announcementId])
     );
 
-    if (error) return { error: { code: 500, message: error } };
+    if (error) {
+      addNewLog(
+        this.serviceName,
+        `Error while updating Announcement ${announcementId} was updated`
+      );
+
+      return { error: { code: 500, message: error } };
+    }
+
+    addNewLog(this.serviceName, `Announcement ${announcementId} was updated`);
 
     return { result: updatedAnnouncement };
   }
@@ -68,11 +94,14 @@ export default class AnnouncementService {
     const [error] = await to(
       connection.promise().query(query, [announcementId])
     );
-    // const [error, [resultRows, _]] = await to(
-    //   connection.promise().query(query, newAnnouncement)
-    // );
 
-    if (error) return { error: { code: 500, message: error } };
+    if (error) {
+      addNewLog(this.serviceName, `Error while deleting Announcement ${announcementId}`);
+
+      return { error: { code: 500, message: error } };
+    }
+
+    addNewLog(this.serviceName, `Announcement ${announcementId} was deleted`);
 
     const result = { id: announcementId };
 
@@ -89,34 +118,7 @@ export default class AnnouncementService {
     const connection = getMysqlConnection();
     const query = 'SELECT * FROM announcement WHERE id = ?';
 
-    const [error, [resultRows, _]] = await to(
-      connection.promise().query(query, [announcementId])
-    );
-
-    if (!resultRows.length)
-      return {
-        error: {
-          code: 404,
-          message: `Announcement with id ${announcementId} was not found`,
-        },
-      };
-
-    if (error) return { error: { code: 500, message: error } };
-
-    // We can take the first element of the  resultRows because there always be only one record as we are specifying in
-    // our query id which is unique primary key
-    return { result: resultRows[0] };
-  }
-
-  /**
-   * Get announcement by id
-   * @param {*} announcementId
-   * @param {*} announcement
-   * @returns
-   */
-  async getAnnouncement(announcementId) {
-    const connection = getMysqlConnection();
-    const query = 'SELECT * FROM announcement WHERE id = ?';
+    addNewLog(this.serviceName, `Retrieving Announcement ${announcementId}`);
 
     const [error, [resultRows, _]] = await to(
       connection.promise().query(query, [announcementId])
@@ -147,6 +149,8 @@ export default class AnnouncementService {
     const connection = getMysqlConnection();
     const query = 'SELECT * FROM announcement WHERE user_id = ?';
 
+    addNewLog(this.serviceName, `Retrieving Announcements by userId ${userId}`);
+
     const [error, [resultRows, _]] = await to(
       connection.promise().query(query, [userId])
     );
@@ -165,6 +169,8 @@ export default class AnnouncementService {
   async getAnnouncementsByFullTextSearch(searchQuery) {
     const connection = getMysqlConnection();
     const query = `SELECT * FROM announcement WHERE MATCH (title, description) AGAINST (? IN NATURAL LANGUAGE MODE)`;
+
+    addNewLog(this.serviceName, `Running Announcements full text search with query ${searchQuery}`);
 
     const [error, [resultRows, _]] = await to(
       connection.promise().query(query, [searchQuery])

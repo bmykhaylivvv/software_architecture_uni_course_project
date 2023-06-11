@@ -2,6 +2,29 @@ import { to } from 'await-to-js';
 import { Consul } from 'consul/lib/consul.js';
 
 /**
+ * Get random instance from Consul by service name
+ * @param {*} serviceName
+ */
+export async function getServiceInstanceByName(serviceName) {
+  const consul = getConsulInstance();
+  const [err, res] = await to(consul.catalog.service.nodes(serviceName));
+
+  if (err)
+    return console.log(`Error getting services with name: ${serviceName}`);
+
+  if (res.length === 0)
+    return console.log(`No services with name: ${serviceName}`);
+
+  const services = res.map(
+    (service) => `${service.ServiceAddress}:${service.ServicePort}`
+  );
+  const selectedRandomService =
+    services[Math.floor(Math.random() * services.length)];
+
+  return selectedRandomService;
+}
+
+/**
  * Register current microservice in Consul registry
  * @returns
  */
