@@ -39,7 +39,7 @@ class BaseService:
         self.mongo_enabled = mongo_enabled
         if self.mongo_enabled:
             self.mongo_client = pymongo.MongoClient("mongodb://localhost:27017/")
-            self.mongo_db = self.mongo_client['sa_project']
+            self.mongo_db = self.mongo_client['project']
 
         self.mysql_enabled = mysql_enabled
         if self.mysql_enabled:

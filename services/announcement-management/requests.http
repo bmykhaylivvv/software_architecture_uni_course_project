@@ -3,9 +3,9 @@ POST http://localhost:3001
 Content-Type: application/json
 
 {
-  "userId": 1321,
-  "title": "Title22",
-  "description": "Description2323123"
+  "userId": 1,
+  "title": "Title 100",
+  "description": "Description 100"
 }
 
 ###
@@ -15,7 +15,7 @@ PUT http://localhost:3001/announcement/8
 Content-Type: application/json
 
 {
-  "userId": 1321,
+  "userId": 1,
   "title": "Title12",
   "description": "Description2323123"
 }
@@ -41,5 +41,5 @@ Content-Type: application/json
 ###
 
 # Get announcements by full text search
-GET http://localhost:3001/search?query=description
+GET http://localhost:3001/search?query=title
 Content-Type: application/json

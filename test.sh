@@ -1,9 +1,9 @@
 #!/bin/bash
 
-echo "Running 'delete from project.users;'..."
-echo "delete from project.users;" | mysql -u root
+# echo "Running 'delete from project.users;'..."
+# echo "delete from project.users;" | mysql -u root
 
-API_URL="http://localhost:8081"
+API_URL="http://localhost:8089"
 USERNAME="testuser"
 PASSWORD="testpassword"
 

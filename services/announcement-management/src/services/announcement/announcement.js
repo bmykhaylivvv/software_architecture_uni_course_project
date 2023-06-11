@@ -39,7 +39,7 @@ export default class AnnouncementService {
 
     addNewLog(
       this.serviceName,
-      `Announcement ${announcement.userId} was created`
+      `Announcement for user ${announcement.userId} was created`
     );
 
     return { result: newAnnouncement };
