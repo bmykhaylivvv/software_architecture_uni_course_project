@@ -34,4 +34,4 @@ There is tentative use cases for the system we build:
 
 ### Project System Architecture ⚙️
 
-![Untitled](Software%20Architecture%20Project%20Report%20cfba67775d23430d834c95c205e1ba55/Untitled.png)
+<img width="1280" alt="Untitled" src="https://github.com/bmykhaylivvv/software_architecture_uni_course_project/assets/70968342/045246d7-ca0a-4a91-906e-09a1bea131c2">
