@@ -1,0 +1,11 @@
+bcrypt
+mysql-connector-python
+jwt
+pymongo
+passlib
+python-consul  
+hazelcast-python-client
+pydantic
+fastapi[all]
+httpx
+python-dotenv
