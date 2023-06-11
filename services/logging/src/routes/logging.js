@@ -7,5 +7,6 @@ const loggingController = new LoggingController();
 const loggingRouter = Router();
 
 loggingRouter.post('/', verifyUser, loggingController.addLog);
+loggingRouter.get('/', verifyUser, loggingController.getLogsByServiceName);
 
 export { loggingRouter };

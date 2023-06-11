@@ -4,7 +4,7 @@ import { loggingRouter } from './routes/logging.js';
 import {
   getMongoDbConnectionUri,
   setMongoDbConnection,
-} from './persistence/mongodb/mongodb.js';
+} from './persistence/mongoDb/mongoDb.js';
 import {
   getHazelcastConfig,
   setHazelcastConnection,
