@@ -1,4 +1,4 @@
-CREATE TABLE announcement (
+CREATE TABLE project.announcement (
     id int NOT NULL AUTO_INCREMENT,
     user_id int NOT NULL,
     title varchar(255),
@@ -6,4 +6,4 @@ CREATE TABLE announcement (
     PRIMARY KEY (id)
 );
 
-ALTER TABLE announcement ADD FULLTEXT(title, description);
+ALTER TABLE project.announcement ADD FULLTEXT(title, description);
