@@ -3,15 +3,15 @@ POST http://localhost:3002
 Content-Type: application/json
 
 {
-  "announcementId": 10,
+  "announcementId": 11,
   "userId": 3,
-  "text": "Not bad"
+  "text": "Good"
 }
 
 ###
 
 # Delete review
-DELETE  http://localhost:3002/review/6485874919e2009ee4cd2e60
+DELETE  http://localhost:3002/review/6485914588d45722e6e17430
 Content-Type: application/json
 
 ###

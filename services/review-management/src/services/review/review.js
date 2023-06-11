@@ -1,4 +1,3 @@
-import { to } from 'await-to-js';
 import { ObjectId } from 'mongodb';
 
 import { getMongoDbConnection } from '../../persistence/mongodb/mongodb.js';
@@ -20,11 +19,15 @@ export default class ReviewService {
       text: review.text,
       date: review.date,
     };
-    const [error] = await to(
-      mongoDbClient.db('project').collection('review').insertOne(newReview)
-    );
 
-    if (error) return { error: { code: 500, message: error } };
+    try {
+      await mongoDbClient
+        .db('project')
+        .collection('review')
+        .insertOne(newReview);
+    } catch (error) {
+      return { error: { code: 500, message: error } };
+    }
 
     return { result: newReview };
   }
@@ -44,14 +47,14 @@ export default class ReviewService {
       return { error: { code: 500, message: 'Invalid review id' } };
     }
 
-    const [error] = await to(
-      mongoDbClient
+    try {
+      await mongoDbClient
         .db('project')
         .collection('review')
-        .deleteOne({ _id: reviewObjectId })
-    );
-
-    if (error) return { error: { code: 500, message: error } };
+        .deleteOne({ _id: reviewObjectId });
+    } catch (error) {
+      return { error: { code: 500, message: error } };
+    }
 
     const result = { id: reviewId };
 
@@ -68,7 +71,6 @@ export default class ReviewService {
     let reviews;
 
     try {
-      console.log(typeof announcementId)
       const rawReviewsResponse = await mongoDbClient
         .db('project')
         .collection('review')
