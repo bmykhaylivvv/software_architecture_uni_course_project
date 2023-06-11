@@ -1,0 +1,21 @@
+# Create review
+POST http://localhost:3002
+Content-Type: application/json
+
+{
+  "announcementId": 11,
+  "userId": 3,
+  "text": "Good"
+}
+
+###
+
+# Delete review
+DELETE  http://localhost:3002/review/6485914588d45722e6e17430
+Content-Type: application/json
+
+###
+
+# Get reviews by announcementId
+GET http://localhost:3002/?announcementId=10
+Content-Type: application/json
