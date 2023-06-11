@@ -6,4 +6,4 @@ CREATE TABLE project.announcement (
     PRIMARY KEY (id)
 );
 
-ALTER TABLE project.announcement ADD FULLTEXT(title, description);
+  ALTER TABLE project.announcement ADD FULLTEXT(title, description);

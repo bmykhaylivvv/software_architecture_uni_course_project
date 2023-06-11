@@ -1,0 +1,14 @@
+# Add new log
+POST http://localhost:3003
+Content-Type: application/json
+
+{
+  "service": "review",
+  "text": "Review was added"
+}
+
+###
+
+# Get logs by service name
+GET http://localhost:3003?service=review
+Content-Type: application/json
