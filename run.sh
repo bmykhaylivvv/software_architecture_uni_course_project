@@ -11,7 +11,7 @@ for ((i=0; i<${#service_filenames[@]}; i++)); do
     if ! $(screen -list | grep $screen_name > /dev/null); then
         echo "Starting $screen_name ($s_filename) on port $port..."
         echo logfile screenlogs/$screen_name.screenlog > screenlogs/$screen_name-config
-        screen -L -c screenlogs/$screen_name-config -S $screen_name -d -m bash -c "cat .env | python3 -m services.$s_filename.controller --port $port"
+        screen -L -c screenlogs/$screen_name-config -S $screen_name -d -m bash -c "python3 -m services.$s_filename.controller --port $port"
     fi
 done
 

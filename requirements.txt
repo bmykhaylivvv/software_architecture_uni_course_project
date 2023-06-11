@@ -1,6 +1,7 @@
 bcrypt
 mysql-connector-python
 jwt
+pyjwt
 pymongo
 passlib
 python-consul  
